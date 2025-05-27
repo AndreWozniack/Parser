@@ -1,0 +1,6 @@
+README.md
+setup.py
+lexer.egg-info/PKG-INFO
+lexer.egg-info/SOURCES.txt
+lexer.egg-info/dependency_links.txt
+lexer.egg-info/top_level.txt

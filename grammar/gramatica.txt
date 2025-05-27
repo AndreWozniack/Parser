@@ -1,0 +1,7 @@
+S -> Expr
+Expr -> “(” RPN “)”
+RPN -> opernad “ “ RPNExpr | “MEM”
+RPNExpr -> operand “ “ operator | unaryOperator
+operand -> Expr | “Number”
+operator -> "+" | "-" | "*" | "/" | "%" | "|" | "^"
+unaryOperator -> "RES" | "IF" | "THEN" | "ELSE" | "DO" | "FOR" | "MEM"
