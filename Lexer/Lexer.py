@@ -18,7 +18,8 @@ class Lexer:
             "IF",
             "THEN",
             "ELSE",
-            "FOR"
+            "FOR",
+            "DO"
         )
 
     def current_char(self):

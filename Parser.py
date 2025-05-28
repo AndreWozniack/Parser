@@ -62,6 +62,9 @@ def token_to_terminal(tok: Token) -> str:
     if tok.token_class in (TokenType.INTEGER_NUMBER, TokenType.REAL_NUMBER):
         return 'NUMBER'
 
+    if tok.token_class == TokenType.KEYWORD:
+        return tok.value.upper()
+
     return tok.token_class.name
 
 

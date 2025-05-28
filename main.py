@@ -31,9 +31,9 @@ def load_tokens_by_line(path: Path):
     return grouped
 
 def _run_parser_for_line(line_no, tokens, export_dot: bool, stem: str):
-    print(f"\n--- Linha {line_no} ({len(tokens)} tokens) ---")
+    print(f"\n--- Linha {line_no + 1} ({len(tokens)} tokens) ---")
     try:
-        #parser = Parser(tokens, debug=True)
+        # parser = Parser(tokens, debug=True)
         parser = Parser(tokens)
         ast = parser.parse()
         # print("AST final:\n", ast)
