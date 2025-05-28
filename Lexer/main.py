@@ -10,12 +10,10 @@ def print_tokens(tokens: list[Token], line_counter: int, line, error=None):
     line_separator = "-=" * 25
     formatted_line = line.rstrip("\n")
 
-    # cabeçalho
     print(f"\n{line_separator}")
     print(f" Line {line_counter:3d} - {formatted_line}")
     print(f"{line_separator}")
 
-    # lista de tokens
     if tokens:
         for token in tokens:
             print(f"{token.token_class.name:<20} | {token.value:<5} | {token.row}:{token.column:<5}")

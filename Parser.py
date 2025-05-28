@@ -2,7 +2,7 @@ from ASTNode import *
 from Token import Token
 from TokenType import TokenType
 
-ll1_table = {
+parse_table = {
     # S
     ('S', 'LEFT_PARENTHESIS'):        ['Expr'],
 
@@ -85,7 +85,10 @@ class Parser:
                 if term == '$':
                     return root
                 else:
-                    raise SyntaxError(f"EOF esperado, mas veio {term}")
+                    raise SyntaxError(
+                        f"Fim de arquivo inesperado em linha {cur.row}, coluna {cur.column}: "
+                        f"esperava fim de entrada, mas veio `{term}`"
+                    )
 
             node = node_stack.pop()
 
@@ -95,7 +98,10 @@ class Parser:
                 'MEM','RES','IF','THEN','ELSE','DO','FOR'
             }:
                 if top != term:
-                    raise SyntaxError(f"Esperava `{top}`, mas veio `{term}` na posição {self.pos}")
+                    raise SyntaxError(
+                        f"Erro de sintaxe em linha {cur.row}, coluna {cur.column}: "
+                        f"esperava `{top}`, mas veio `{term}` (valor='{cur.value}')"
+                    )
                 if self.debug:
                     print(f">>> Match terminal `{top}`, consumindo token `{cur.value}`")
 
@@ -106,13 +112,12 @@ class Parser:
                 continue
 
             key = (top, term)
-            if key not in ll1_table:
+            if key not in parse_table:
                 raise SyntaxError(f"Sem produção para `{top}` com lookahead `{term}`")
-            production = ll1_table[key]
+            production = parse_table[key]
             if self.debug:
                 print(f">>> Produção: {top} -> {production}")
 
-            # empilha filhos em ordem inversa
             children = [ASTNode(sym) for sym in production]
             node.children.extend(children)
             for sym, child in zip(reversed(production), reversed(children)):

@@ -36,14 +36,17 @@ def load_tokens_by_line(path: Path):
 def _run_parser_for_line(line_no, tokens, export_dot: bool, stem: str):
     print(f"\n--- Linha {line_no} ({len(tokens)} tokens) ---")
     try:
-        parser = Parser(tokens, debug=True)
+        #parser = Parser(tokens, debug=True)
+        parser = Parser(tokens)
         ast = parser.parse()
         print("AST final:\n", ast)
+
         if export_dot:
             fname = f"{stem}_line{line_no}_ast"
             out_path = Path('out') / fname
             ast.to_graphviz(filename=str(out_path), format="png", view=False)
             print(f"  ▶ AST salva em out/{fname}.png")
+
     except Exception as e:
         print(f"[PARSE ERROR] {e}")
 
@@ -89,7 +92,10 @@ def main():
         stem = fp.stem
         for line_no in sorted(tokens_by_line):
             tokens = tokens_by_line[line_no]
-            _run_parser_for_line(line_no, tokens, args.dot, stem)
+            try:
+               _run_parser_for_line(line_no, tokens, args.dot, stem)
+            except Exception as e:
+                print(f"[ERROR] Linha {line_no}: {e}", file=sys.stderr)
 
 if __name__ == "__main__":
     main()
