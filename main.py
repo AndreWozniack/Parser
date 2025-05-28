@@ -3,14 +3,12 @@ import json
 import sys
 from pathlib import Path
 from collections import defaultdict
-
 from TokenType import TokenType
 from Token import Token
 from Parser import Parser
 
 def load_tokens_by_line(path: Path):
     raw = json.loads(path.read_text(encoding="utf-8"))
-
     grouped = defaultdict(list)
     for entry in raw:
         line_no = entry.get("line", "?")
@@ -30,7 +28,6 @@ def load_tokens_by_line(path: Path):
                 column=t["column"]
             )
             grouped[line_no].append(tok)
-
     return grouped
 
 def _run_parser_for_line(line_no, tokens, export_dot: bool, stem: str):
