@@ -42,12 +42,6 @@ parse_table = {
     ('unaryOperator', 'MEM'):         ['MEM'],
 }
 
-TERMINALS = {
-    'LEFT_PARENTHESIS', 'RIGHT_PARENTHESIS', 'NUMBER', 'OPERATOR',
-    'MEM', 'RES', 'IF', 'THEN', 'ELSE', 'DO', 'FOR'
-}
-
-
 def _get_expected_tokens(non_terminal: str) -> list[str]:
     return sorted(list({
         key[1] for key in parse_table.keys() if key[0] == non_terminal
@@ -68,16 +62,16 @@ def token_to_terminal(tok: Token) -> str:
 
 class Parser:
 
-    def __init__(self, tokens: list[Token], debug: bool = False):
-        self.tokens = tokens + [Token('$', TokenType.ERROR, -1, -1)]
+    def __init__(self, buffer: list[Token], debug: bool = False):
+        self.buffer = buffer + [Token('$', TokenType.ERROR, -1, -1)]
         self.pos = 0
         self.debug = debug
 
     def current_token(self) -> Token:
-        return self.tokens[self.pos]
+        return self.buffer[self.pos]
 
     def advance(self):
-        if self.pos < len(self.tokens) -1:
+        if self.pos < len(self.buffer) -1:
             self.pos += 1
 
     def _raise_syntax_error(self, message: str) -> None:
@@ -89,7 +83,7 @@ class Parser:
     def parse(self) -> ASTNode:
         stack = ['$', 'S']
         root = ASTNode('S')
-        trhee = [root]
+        tree = [root]
 
         while stack:
             stack_top = stack.pop()
@@ -99,7 +93,7 @@ class Parser:
             if self.debug:
                 print("──────────────────────────────────────────────────")
                 print(f"Pilha de Análise:  {stack + [stack_top]!r}")
-                print(f"Pilha de Nós AST:  {[n.symbol for n in trhee]}")
+                print(f"Pilha de Nós AST:  {[n.symbol for n in tree]}")
                 print(f"Token Atual (Lookahead): {lookahead!r} (Token: {current!r})")
                 print(f"Topo da Pilha:     {stack_top!r}")
 
@@ -112,9 +106,12 @@ class Parser:
                         f"Tokens inesperados ('{lookahead}') após o final do código válido."
                     )
 
-            current_node = trhee.pop()
+            current_node = tree.pop()
 
-            if stack_top in TERMINALS:
+            if stack_top in {
+                'LEFT_PARENTHESIS', 'RIGHT_PARENTHESIS', 'NUMBER', 'OPERATOR',
+                'MEM', 'RES', 'IF', 'THEN', 'ELSE', 'DO', 'FOR'
+            }:
                 if stack_top == lookahead:
                     if self.debug:
                         print(f">>> Match! Terminal '{stack_top}'. Consumindo token '{current.value}'.")
@@ -144,7 +141,7 @@ class Parser:
 
                 for symbol, child_node in zip(reversed(production), reversed(children)):
                     stack.append(symbol)
-                    trhee.append(child_node)
+                    tree.append(child_node)
             else:
                 expected = _get_expected_tokens(stack_top)
                 if lookahead == '$':
