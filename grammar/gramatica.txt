@@ -15,9 +15,9 @@ FIRST(operator) = {"+", "-", "*", "/", "%", "|", "^" }
 FIRST(unaryOperator) = {"RES", "IF", "THEN", "ELSE", "DO", "FOR", "MEM"}
 
 FOLLOW(S) = {$}
-FOLLOW(Expr) = {$, "_"}
+FOLLOW(Expr) = {$, " "}
 FOLLOW(RPN) = {")"}
 FOLLOW(RPNExpr) = {")"}
-FOLLOW(operand) = {"_"}
+FOLLOW(operand) = {" "}
 FOLLOW(operator) = {")"}
 FOLLOW(unaryOperator) = {")"}

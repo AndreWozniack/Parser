@@ -66,7 +66,6 @@ def token_to_terminal(tok: Token) -> str:
 
     return tok.token_class.name
 
-
 class Parser:
 
     def __init__(self, tokens: list[Token], debug: bool = False):
@@ -90,7 +89,7 @@ class Parser:
     def parse(self) -> ASTNode:
         stack = ['$', 'S']
         root = ASTNode('S')
-        node_stack = [root]
+        trhee = [root]
 
         while stack:
             stack_top = stack.pop()
@@ -100,7 +99,7 @@ class Parser:
             if self.debug:
                 print("──────────────────────────────────────────────────")
                 print(f"Pilha de Análise:  {stack + [stack_top]!r}")
-                print(f"Pilha de Nós AST:  {[n.symbol for n in node_stack]}")
+                print(f"Pilha de Nós AST:  {[n.symbol for n in trhee]}")
                 print(f"Token Atual (Lookahead): {lookahead!r} (Token: {current!r})")
                 print(f"Topo da Pilha:     {stack_top!r}")
 
@@ -113,7 +112,7 @@ class Parser:
                         f"Tokens inesperados ('{lookahead}') após o final do código válido."
                     )
 
-            current_node = node_stack.pop()
+            current_node = trhee.pop()
 
             if stack_top in TERMINALS:
                 if stack_top == lookahead:
@@ -145,7 +144,7 @@ class Parser:
 
                 for symbol, child_node in zip(reversed(production), reversed(children)):
                     stack.append(symbol)
-                    node_stack.append(child_node)
+                    trhee.append(child_node)
             else:
                 expected = _get_expected_tokens(stack_top)
                 if lookahead == '$':
