@@ -42,7 +42,6 @@ parse_table = {
     ('unaryOperator', 'MEM'):         ['MEM'],
 }
 
-
 TERMINALS = {
     'LEFT_PARENTHESIS', 'RIGHT_PARENTHESIS', 'NUMBER', 'OPERATOR',
     'MEM', 'RES', 'IF', 'THEN', 'ELSE', 'DO', 'FOR'
