@@ -1,0 +1,15 @@
+S -> Expr
+Expr -> “(” RPN “)”
+RPN -> opernad “ “ RPNExpr | “MEM”
+RPNExpr -> operand “ “ operator | unaryOperator
+operand -> Expr | “Number”
+operator -> "+" | "-" | "*" | "/" | "%" | "|" | "^"
+unaryOperator -> "RES" | "IF" | "THEN" | "ELSE" | "DO" | "FOR" | "MEM"
+
+FOLLOW(S) = {$}
+FOLLOW(Expr) = {$, "_"}
+FOLLOW(RPN) = {")"}
+FOLLOW(RPNExpr) = {")"}
+FOLLOW(operand) = {"_"}
+FOLLOW(operator) = {")"}
+FOLLOW(unaryOperator) = {")"}

@@ -13,11 +13,3 @@ FIRST(RPNExpr) = { "(", "Number", "RES", "IF", "THEN", "ELSE", "DO", "FOR", "MEM
 FIRST(operand) = {"(", Number }
 FIRST(operator) = {"+", "-", "*", "/", "%", "|", "^" }
 FIRST(unaryOperator) = {"RES", "IF", "THEN", "ELSE", "DO", "FOR", "MEM"}
-
-FOLLOW(S) = {$}
-FOLLOW(Expr) = {$, "_"}
-FOLLOW(RPN) = {")"}
-FOLLOW(RPNExpr) = {")"}
-FOLLOW(operand) = {"_"}
-FOLLOW(operator) = {")"}
-FOLLOW(unaryOperator) = {")"}
