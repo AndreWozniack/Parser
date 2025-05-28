@@ -39,13 +39,13 @@ def _run_parser_for_line(line_no, tokens, export_dot: bool, stem: str):
         #parser = Parser(tokens, debug=True)
         parser = Parser(tokens)
         ast = parser.parse()
-        print("AST final:\n", ast)
+        # print("AST final:\n", ast)
 
         if export_dot:
-            fname = f"{stem}_line{line_no}_ast"
-            out_path = Path('out') / fname
+            file_name = f"{stem}_line{line_no}_ast"
+            out_path = Path('output') / file_name
             ast.to_graphviz(filename=str(out_path), format="png", view=False)
-            print(f"  ▶ AST salva em out/{fname}.png")
+            print(f"  ▶ AST salva em output/{file_name}.png")
 
     except Exception as e:
         print(f"[PARSE ERROR] {e}")
@@ -68,7 +68,7 @@ def main():
     )
     args = p.parse_args()
 
-    out_dir = Path('out')
+    out_dir = Path('output')
     out_dir.mkdir(exist_ok=True)
 
     try:

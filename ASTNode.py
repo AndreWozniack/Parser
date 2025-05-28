@@ -20,7 +20,6 @@ class ASTNode:
         dot = Digraph(comment="Abstract Syntax Tree", format=format)
         self._add_to_graph(dot)
         dot.render(filename, view=view)
-        print(f"AST image saved to {filename}.{format}")
 
     def _add_to_graph(self, dot: Digraph, parent_id: str = None):
         node_id = str(id(self))
